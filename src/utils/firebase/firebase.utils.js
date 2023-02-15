@@ -6,8 +6,11 @@ import {
      signInWithPopup, 
      GoogleAuthProvider,
      createUserWithEmailAndPassword,
-     signInWithEmailAndPassword
-    } // Google provider will be used to sign in with google accounts (You can use diff providers eg facebook, github etc)
+     signInWithEmailAndPassword,
+     signOut,
+     onAuthStateChanged
+    } 
+    // Google provider will be used to sign in with google accounts (You can use diff providers eg facebook, github etc)
       //methods 
        from "firebase/auth"; //Library for authentication services
 // Your web app's Firebase configuration
@@ -96,3 +99,8 @@ const firebaseConfig = {
 
     return await signInWithEmailAndPassword(auth, email, password);
   } ;
+
+  export const signOutUser = async () => await signOut(auth);
+
+  export const onAuthStateChangedListener =(callback) => 
+    onAuthStateChanged(auth,callback);

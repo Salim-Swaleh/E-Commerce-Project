@@ -3,6 +3,8 @@ import{useState} from 'react';
 import FormInput from '../form-input/form-input.component';
 
 import Button from '../button/button.component';
+
+
  
 import { signInWithGooglePopup, 
     signInAuthUserWithEmailAndPassword,
@@ -29,8 +31,8 @@ const SignInForm = ( ) =>{
     };
 
     const signInWithGoogle = async () => {
-        const {user} = await signInWithGooglePopup();
-        await createUserDocumentFromAuth(user);
+        await signInWithGooglePopup();
+    
     };
 
     const handleSubmit = async(event) => {
@@ -38,9 +40,10 @@ const SignInForm = ( ) =>{
 
         
         try {
-            const response= await signInAuthUserWithEmailAndPassword(email,password);
-            console.log(response);
-            resetFormFields();
+            await signInAuthUserWithEmailAndPassword(email,password);
+             resetFormFields();
+            
+            
         } catch(error){
             switch(error.code){
                 case 'auth/wrong-password':
@@ -67,7 +70,7 @@ const SignInForm = ( ) =>{
     };
 
     return(
-        <div className='sign-up-container'>
+        <div className='sign-in-container'>
             <h2>Existing User</h2>
             <span>Sign in with your Email and Password</span>
             <form onSubmit={ handleSubmit} >
