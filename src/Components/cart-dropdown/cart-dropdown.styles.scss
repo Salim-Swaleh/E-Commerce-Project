@@ -5,11 +5,12 @@
     display: flex;
     flex-direction: column;
     padding: 20px;
-    border: 1px solid black;
+    border: 1px solid #6bb3b3;
     background-color: white;
     top: 90px;
     right: 40px;
     z-index: 5;
+    border-radius: 10px;
   
     .empty-message {
       font-size: 18px;
