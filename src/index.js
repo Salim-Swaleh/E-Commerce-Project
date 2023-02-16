@@ -7,16 +7,20 @@ import App from './App';
 
 import { UserProvider } from './contexts/user.context';
 import { ProductsProvider } from './contexts/products.context';
+import { CartProvider } from './contexts/cart.context';
 
 import './index.scss';
 
 ReactDOM.render(
   /*all components are nested in the BrowserRouter to leverage the ReactRouter functionalities for navigation*/
+  /*There are 3 providers, User provider which detects whether a user is authenticated and signed  in, Products Provider which detects products from the firebase, Cart Provider which detects producsts added to the cart */
   <React.StrictMode>
     <BrowserRouter> 
     <UserProvider>
       <ProductsProvider>
-        <App />
+        <CartProvider>
+          <App />
+        </CartProvider>
       </ProductsProvider>
     </UserProvider> 
     </BrowserRouter>
