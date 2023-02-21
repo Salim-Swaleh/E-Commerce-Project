@@ -19,7 +19,11 @@ import {
     getFirestore,
      doc,//Allows us to retrieve documents from firestore database
      getDoc, //Allows us to get data from documents
-     setDoc
+     setDoc,
+     collection,//Allows us to upload data to firestore database
+     writeBatch,
+     query,
+     getDocs
 } from "firebase/firestore";//Library for the firestore database
 
 const firebaseConfig = {
@@ -50,7 +54,33 @@ const firebaseConfig = {
 
   export const db = getFirestore(); // db points to this app's database
 
+  export const addCollectionAndDocuments = async (collectionKey, objectsToAdd) =>{ //Create collection
+    const collectionRef = collection(db, collectionKey);//Collection Reference
+    const batch = writeBatch(db);
 
+    objectsToAdd.forEach((object)=>{
+      const docRef= doc(collectionRef, object.title.toLowerCase());
+      batch.set(docRef,object);
+    });
+    await batch.commit(); //will add the data to the database
+    console.log('done!');
+  };
+
+ // extract/query data from  the firestore database
+  export const getCategoriesAndDocuments = async ()=>{
+    const collectionRef = collection(db,'categories');
+
+    const q = query(collectionRef);
+    const querySnapshot = await getDocs(q);
+    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot)=>{
+      const{title, items } = docSnapshot.data();
+      acc[title.toLowerCase()] = items;
+      return acc;
+    }, {});
+    return categoryMap; //Get our category map from database
+  }
+// This helper functions above isolate the actual application from any changes or updates made by firebase (google) hence it will be easy to update the chages to our code
+// The world of Javascript and its frameworks is frequently 
   export const createUserDocumentFromAuth = async (userAuth, additionalInformation ={}
     ) =>{
     if(!userAuth) return;
