@@ -1,6 +1,7 @@
 // This utility is a layer between the front-end and the firebase service that will provide easy debuging incase google makes major changes in firebase
 
 import{ initializeApp }from "firebase/app"; //initilizeApp function creates an instance. It enables us to attach our local instance to the one we have online
+import {getAnalytics, logEvent} from 'firebase/analytics';
 import { 
      getAuth, 
      signInWithPopup, 
@@ -13,6 +14,7 @@ import {
     // Google provider will be used to sign in with google accounts (You can use diff providers eg facebook, github etc)
       //methods 
        from "firebase/auth"; //Library for authentication services
+
 // Your web app's Firebase configuration
 
 import {
@@ -33,15 +35,19 @@ const firebaseConfig = {
     storageBucket: "e-commerce-db-e74e4.appspot.com",
     messagingSenderId: "306207325847",
     appId: "1:306207325847:web:2fc8aaa82ffab0c136b3d2",
-    measurementId: "G-0ZCM29875M"
+    measurementId: "G-0ZCM29875M",
+    
   };
   
   // Initialize Firebase
   const firebaseApp = initializeApp(firebaseConfig);
+  const analytics = getAnalytics(firebaseApp);
+  logEvent(analytics);
   
 
   const provider = new GoogleAuthProvider();
   
+ 
 
 
   provider.setCustomParameters({
@@ -69,16 +75,13 @@ const firebaseConfig = {
  // extract/query data from  the firestore database
   export const getCategoriesAndDocuments = async ()=>{
     const collectionRef = collection(db,'categories');
-
     const q = query(collectionRef);
+
     const querySnapshot = await getDocs(q);
-    const categoryMap = querySnapshot.docs.reduce((acc, docSnapshot)=>{
-      const{title, items } = docSnapshot.data();
-      acc[title.toLowerCase()] = items;
-      return acc;
-    }, {});
-    return categoryMap; //Get our category map from database
-  }
+    return querySnapshot.docs.map((docSnapshot) =>docSnapshot.data());
+
+    
+  };
 // This helper functions above isolate the actual application from any changes or updates made by firebase (google) hence it will be easy to update the chages to our code
 // The world of Javascript and its frameworks is frequently 
   export const createUserDocumentFromAuth = async (userAuth, additionalInformation ={}
@@ -134,3 +137,4 @@ const firebaseConfig = {
 
   export const onAuthStateChangedListener =(callback) => 
     onAuthStateChanged(auth,callback);
+
