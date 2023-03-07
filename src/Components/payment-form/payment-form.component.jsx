@@ -16,7 +16,7 @@ import { async } from "@firebase/util";
       if(!stripe || !elements){
         return;
       }
-}
+};
     return (
         <div className="payment-form-container">
             <div className="form-container">
