@@ -4,7 +4,7 @@ default
 inverted
 google sign in*/
 
-const BUTTON_TYPES_CLASSES ={ 
+export const BUTTON_TYPES_CLASSES ={ 
     google: 'google-sign-in',
     inverted: 'inverted'
 }

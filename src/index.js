@@ -2,11 +2,13 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { store } from './store/store';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Elements } from '@stripe/react-stripe-js';
 
 import App from './App';
-import { persistor } from './store/store';
+import { store,persistor } from './store/store';
+import { stripePromise } from './utils/stripe/stripe.utils';
+
 import './index.scss';
 
 ReactDOM.render(
@@ -14,11 +16,13 @@ ReactDOM.render(
   /*There are 3 providers, User provider which detects whether a user is authenticated and signed  in, Products Provider which detects products from the firebase, Cart Provider which detects producsts added to the cart */
   <React.StrictMode>
     <Provider store={store}>
-      {/*<PersistGate persistor={persistor}>*/}
-        <BrowserRouter> 
-           <App />
+      {/* <PersistGate loading={null} persistor={persistor}> */}
+        <BrowserRouter>
+          <Elements stripe = {stripePromise}>
+             <App />
+          </Elements> 
          </BrowserRouter>
-      {/*</PersistGate>*/}
+       {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
   
