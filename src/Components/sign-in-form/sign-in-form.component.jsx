@@ -14,38 +14,46 @@ import { signInWithGooglePopup,
 
 import './sign-in-form.styles.scss';
 
+// Define the default form fields object with empty email and password fields
 const defaultFormFields = {
     email:'',
     password:'',
 
 };
 
+// Define the functional component SignInForm
 const SignInForm = ( ) =>{
-
+    
+    
+  // Set the state of formFields to defaultFormFields
     const [formFields, setFormFields] = useState(defaultFormFields);
+    // Destructure email and password from the formFields object
     const { email, password } = formFields;
 
     
-
+    // Define a function to reset the form fields back to the default values
     const resetFormFields = () =>{
         setFormFields(defaultFormFields);
     };
 
+    // Define a function to sign in the user with their Google account
     const signInWithGoogle = async () => {
         await signInWithGooglePopup();
     
     };
-
+   
+    // Define a function to handle form submission and sign in the user with email and password
     const handleSubmit = async(event) => {
         event.preventDefault();
 
         
         try {
-            await signInAuthUserWithEmailAndPassword(email,password);
+            await signInAuthUserWithEmailAndPassword(email,password);//signInAuth..... is a predefined function from firebase.utils
              resetFormFields();
             
             
         } catch(error){
+            // Handle error cases
             switch(error.code){
                 case 'auth/wrong-password':
                     alert('Incorrect Password');
@@ -62,14 +70,16 @@ const SignInForm = ( ) =>{
         }
 
     };
-
+ 
+     // Define a function to update formFields when the user types into the form input fields
     const handleChange = (event) => {
         const{name, value} = event.target;
 
         setFormFields({...formFields, [name]:value});
 
     };
-
+ 
+     // Render the sign-in form with email and password inputs, submit and Google sign-in buttons
     return(
         <div className='sign-in-container'>
             <h2>Existing User</h2>

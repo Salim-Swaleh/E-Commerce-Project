@@ -31,16 +31,20 @@ const categories = [
 
 
 ];
-
+// This is a functional component named Directory
 const Directory = () => {
-  
+  // The component returns a div with class 'directory-container'
+  // Inside the div, a map function is called on 'categories' array 
     return(
         <div className="directory-container">
       {categories.map(( category ) => (
+         // For each category in the 'categories' array, the component DirectoryItem is rendered with the following props
+        // 'key' is set to the id of the category
+        // 'category' is set to the category object
         <DirectoryItem key={category.id} category={category}/>
       ))}
     </div>
     )
 };
-
+// The Directory component is exported as the default export from this module
 export default Directory

@@ -2,31 +2,36 @@ import React from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
-import { PersistGate } from 'redux-persist/integration/react';
 import { Elements } from '@stripe/react-stripe-js';
 
-
 import App from './App';
-import { store,persistor } from './store/store';
+import { store} from './store/store';
 import { stripePromise } from './utils/stripe/stripe.utils';
 
 import './index.scss';
 
 ReactDOM.render(
-  /*all components are nested in the BrowserRouter to leverage the ReactRouter functionalities for navigation*/
-  /*There are 3 providers, User provider which detects whether a user is authenticated and signed  in, Products Provider which detects products from the firebase, Cart Provider which detects producsts added to the cart */
+  
+   // The <React.StrictMode> component is used to highlight potential problems in the application and its components during development mode
   <React.StrictMode>
+
+    {/* The <Provider> component is used to provide the Redux store to the application */} 
     <Provider store={store}>
-      {/* <PersistGate loading={null} persistor={persistor}> */}
+
+         {/* The <BrowserRouter> component is used to enable client-side routing and handle navigation in the application */}
         <BrowserRouter>
+
+           {/* The <Elements> component is used to wrap the Stripe payment processing functionality */}
           <Elements stripe = {stripePromise}>
+
+            {/* The <App> component is the root component of the application */}
              <App />
           </Elements> 
          </BrowserRouter>
-       {/* </PersistGate> */}
     </Provider>
   </React.StrictMode>
   
+  // This is the HTML element in the DOM where the application is rendered
   ,document.getElementById('root')
 );
 
